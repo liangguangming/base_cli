@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "check": "eslint --ext .js ./ --fix"
+    "lint-fix": "eslint --ext .js ./src --fix",
+    "lint": "eslint --ext .js ./src"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,7 @@
   "homepage": "https://github.com/liangguangming/base_cli#readme",
   "husky": {
     "hooks": {
-      "pre-commit": "npm run check"
+      "pre-commit": "npm run lint"
     }
   },
   "devDependencies": {
@@ -32,6 +33,12 @@
     "husky": "^4.2.5"
   },
   "dependencies": {
-    "commander": "^6.0.0"
+    "chalk": "^4.1.0",
+    "commander": "^6.0.0",
+    "dotenv": "^8.2.0",
+    "download-git-repo": "^3.0.2",
+    "fs-extra": "^9.0.1",
+    "inquirer": "^7.3.3",
+    "ora": "^5.0.0"
   }
 }
