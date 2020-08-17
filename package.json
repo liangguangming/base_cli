@@ -1,0 +1,37 @@
+{
+  "name": "base_cli",
+  "version": "1.0.0",
+  "description": "nodejs 基本脚手架",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check": "eslint --ext .js ./ --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liangguangming/base_cli.git"
+  },
+  "keywords": [
+    "cli"
+  ],
+  "author": "liangguangming",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/liangguangming/base_cli/issues"
+  },
+  "homepage": "https://github.com/liangguangming/base_cli#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run check"
+    }
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.21.2",
+    "husky": "^4.2.5"
+  },
+  "dependencies": {
+    "commander": "^6.0.0"
+  }
+}
