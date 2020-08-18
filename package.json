@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "nodejs 基本脚手架",
   "main": "src/index.js",
+  "bin": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint-fix": "eslint --ext .js ./src --fix",
