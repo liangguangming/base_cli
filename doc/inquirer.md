@@ -1,3 +1,2 @@
 # inquirer
-
-input, number, confirm, list, rawlist, expand, checkbox, password, editor
+负责命令行交互

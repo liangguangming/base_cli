@@ -8,6 +8,7 @@ const ora = require('ora');
 const inquirer = require('inquirer');
 const download = require('download-git-repo');
 const { copySync } = require('fs-extra');
+const merge = require('merge');
 
 const { log } = console;
 
@@ -77,6 +78,36 @@ async function startPrompt() {
   });
 }
 
+function mergePackage(packagePath, finalPackage) {
+  let tmpPackage = { ...finalPackage };
+  const eslintPackagePath = path.resolve(packagePath);
+  const eslintPackageStr = fs.readFileSync(eslintPackagePath);
+  const eslintPackage = JSON.parse(eslintPackageStr);
+  tmpPackage = merge.recursive(true, tmpPackage, eslintPackage);
+
+  return tmpPackage;
+}
+
+function setEslint(finalPackage) {
+  let tmpPackage = { ...finalPackage };
+  if (context.config.eslint !== 'no') {
+    tmpPackage = mergePackage('tmp/eslint/package.json', finalPackage);
+    fs.copyFileSync(path.resolve('tmp/eslint/.eslintrc.json'), path.resolve(context.config.name, '.eslintrc.json'));
+  }
+
+  return tmpPackage;
+}
+
+function setBabel(finalPackage) {
+  let tmpPackage = { ...finalPackage };
+  if (context.config.babel) {
+    tmpPackage = mergePackage('tmp/babel/package.json', finalPackage);
+    fs.copyFileSync(path.resolve('tmp/babel/babel.config.js'), path.resolve(context.config.name, 'babel.config.js'));
+  }
+
+  return tmpPackage;
+}
+
 log(chalk.bold.green('BASE CLI'));
 program
   .version(require('../package').version, '-v, --version')
@@ -101,7 +132,7 @@ program
     // 整合创建一个 node 项目
     // 创建一个 package.json
     const defaultPackageStr = fs.readFileSync(path.resolve(__dirname, './default/package.json'));
-    const finalPackage = JSON.parse(defaultPackageStr);
+    let finalPackage = JSON.parse(defaultPackageStr);
 
     copySync(path.resolve(__dirname, './default'), path.resolve(context.config.name));
 
@@ -111,27 +142,11 @@ program
     finalPackage.description = context.config.description;
 
     // set eslint
-    if (context.config.eslint !== 'no') {
-      const eslintPackagePath = path.resolve('tmp/eslint/package.json');
-      const eslintPackageStr = fs.readFileSync(eslintPackagePath);
-      const eslintPackage = JSON.parse(eslintPackageStr);
-      Object.assign(finalPackage.dependencies, eslintPackage.dependencies || {});
-      Object.assign(finalPackage.devDependencies, eslintPackage.devDependencies || {});
-      finalPackage.husky = eslintPackage.husky;
-      Object.assign(finalPackage.scripts, eslintPackage.scripts || {});
-      fs.copyFileSync(path.resolve('tmp/eslint/.eslintrc.json'), path.resolve(context.config.name, '.eslintrc.json'));
-    }
+    finalPackage = setEslint(finalPackage);
 
     // set babel
-    if (context.config.babel) {
-      const babelPackagePath = path.resolve('tmp/babel/package.json');
-      const babelPackageStr = fs.readFileSync(babelPackagePath);
-      const babelPackage = JSON.parse(babelPackageStr);
-      Object.assign(finalPackage.dependencies, babelPackage.dependencies || {});
-      Object.assign(finalPackage.devDependencies, babelPackage.devDependencies || {});
-      Object.assign(finalPackage.scripts, babelPackage.scripts || {});
-      fs.copyFileSync(path.resolve('tmp/babel/babel.config.js'), path.resolve(context.config.name, 'babel.config.js'));
-    }
+    finalPackage = setBabel(finalPackage);
+
     fs.writeFileSync(path.resolve(context.config.name, 'package.json'), JSON.stringify(finalPackage, null, 2));
     proce.succeed();
   });
