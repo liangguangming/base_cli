@@ -2,8 +2,8 @@
   "name": "base_cli",
   "version": "1.0.0",
   "description": "nodejs 基本脚手架",
-  "main": "src/index.js",
-  "bin": "src/index.js",
+  "main": "src/cli.js",
+  "bin": "src/cli.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint-fix": "eslint --ext .js ./src --fix",
@@ -39,6 +39,7 @@
     "dotenv": "^8.2.0",
     "download-git-repo": "^3.0.2",
     "fs-extra": "^9.0.1",
+    "handlebars": "^4.7.6",
     "inquirer": "^7.3.3",
     "merge": "^1.2.1",
     "ora": "^5.0.0"

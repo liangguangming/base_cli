@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "lint-fix": "eslint --ext .js ./src --fix",
+    "lint": "eslint --ext .js ./src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.21.2",
+    "husky": "^4.2.5"
+  }
+}
