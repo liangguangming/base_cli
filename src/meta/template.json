@@ -1,3 +1,12 @@
 {
-  "url": "direct:https://github.com/liangguangming/config_template.git"
+  "name": "{{name}}",
+  "dirName": "{{dirName}}",
+  "url": "direct:https://github.com/liangguangming/config_template.git",
+  "destPath": "{{name}}",
+  "config": {
+    "mocha": {
+      "destPath":"{{name}}/test",
+      "url": "direct:https://github.com/liangguangming/gdbts.git"
+    }
+  }
 }
