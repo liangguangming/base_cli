@@ -14,6 +14,13 @@ Mike |  32
 - :--: 代表居中对齐
 - ---: 代表右对齐
 
+```
+| left | center | right |
+| :--- | :----: | ----: |
+| aaaa | bbbbbb | ccccc |
+| a    | b      | c     |
+```
+
 | left | center | right |
 | :--- | :----: | ----: |
 | aaaa | bbbbbb | ccccc |
