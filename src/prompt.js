@@ -1,4 +1,25 @@
-function getPrompt(context) {
+function getPrompt() {
+  return [
+    {
+      name: 'eslint',
+      type: 'list',
+      message: 'choose eslint style',
+      choices: ['airbnb', 'empty'],
+    },
+    {
+      name: 'babel',
+      type: 'confirm',
+      message: 'use babel',
+    },
+    {
+      name: 'mocha',
+      type: 'confirm',
+      message: 'use mocha',
+    },
+  ];
+}
+
+function getFirstPrompt(context) {
   return [
     {
       name: 'name',
@@ -16,27 +37,12 @@ function getPrompt(context) {
       default: `A project named ${context.dirName}`,
     },
     {
-      name: 'eslint',
+      name: 'projectType',
       type: 'list',
-      message: 'choose eslint style',
-      choices: ['airbnb', 'empty'],
-    },
-    {
-      name: 'babel',
-      type: 'confirm',
-      message: 'use babel',
-    },
-    {
-      name: 'mocha',
-      type: 'confirm',
-      message: 'use mocha',
-    },
-    {
-      name: 'koa',
-      type: 'confirm',
-      message: 'use koa',
+      message: 'choose project type',
+      choices: ['koa', 'custom'],
     },
   ];
 }
 
-module.exports = { getPrompt };
+module.exports = { getPrompt, getFirstPrompt };

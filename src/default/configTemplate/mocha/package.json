@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha  --config test/.mocharc.json"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "power-assert": "^1.6.1",
+    "sinon": "^9.0.2",
+    "string-random": "^0.1.3"
+  }
+}

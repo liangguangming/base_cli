@@ -1,0 +1,41 @@
+{
+  "name": "koatest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/bin/launch.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha  --config test/.mocharc.json",
+    "lint-fix": "eslint --ext .js ./src --fix",
+    "lint": "eslint --ext .js ./src",
+    "build": "npx babel src --out-dir dist --source-maps true",
+    "watch:build": "nodemon --watch src --exec 'npm run build'",
+    "dev": "nodemon --watch src --watch .env src/bin/dev.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ajv": "^6.12.2",
+    "core-js": "^3.6.5",
+    "debug": "^4.1.1",
+    "dotenv": "^8.2.0",
+    "koa": "^2.12.1",
+    "koa-body": "^4.2.0",
+    "koa-router": "^9.0.1",
+    "log4js": "^6.3.0",
+    "mongoose": "^5.9.18"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/register": "^7.10.3",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.21.2",
+    "mocha": "^8.0.1",
+    "nodemon": "^2.0.4",
+    "power-assert": "^1.6.1",
+    "sinon": "^9.0.2",
+    "string-random": "^0.1.3"
+  }
+}

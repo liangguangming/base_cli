@@ -25,6 +25,7 @@ class Cli {
     program
       // eslint-disable-next-line global-require
       .version(require('../package.json').version, '-v, --version')
+      .option('-u, --update', 'update all templates')
       .command('init <name>')
       .action(async (name) => {
         context.dirName = name;
@@ -40,11 +41,22 @@ class Cli {
         if (tmpIsExist) {
           fs.rmdirSync(TMP_PATH, { recursive: true });
         }
+        // 更新模板
+        const isUpdateTemplate = program.opts().update;
+        if (isUpdateTemplate) {
+          const spinner = ora('update template');
+          spinner.start();
+          await Cli.updateAllTemplate().catch((err) => {
+            spinner.fail(err.message);
+            process.exit(1);
+          });
+          spinner.succeed();
+        }
         copySync(path.resolve(__dirname, './default/configTemplate'), TMP_PATH);
         // set template
         const answer = await Cli.startPrompt();
         context = Cli.getTemplate({ dirName: context.dirName, ...answer });
-        const excepts = ['name', 'version', 'description'];
+        const excepts = ['name', 'version', 'description', 'koa'];
         const config = {};
         // 不支持多选的prompt
         Object.keys(answer).forEach((key) => {
@@ -58,26 +70,57 @@ class Cli {
         await Cli.startDownloadConfig();
         const proce = ora(chalk.blue('create project: ') + chalk.yellow(name));
         proce.start();
+
+        // set base package
+        const basePackage = {
+          name: context.name,
+          version: context.version,
+          description: context.description,
+        };
         // 整合创建一个 node 项目
-        // 创建一个 package.json
-        const defaultPackageStr = fs.readFileSync(path.resolve(__dirname, './default/base/package.json'));
-        let finalPackage = JSON.parse(defaultPackageStr);
+        let projectPackage = {};
 
-        copySync(path.resolve(__dirname, './default/base'), path.resolve(context.dirName));
+        if (answer.projectType === 'koa') {
+          const projectPath = path.resolve(__dirname, './default/koa');
+          projectPackage = Cli.copyAndGetProjectPackage(projectPath);
+        } else {
+          const projectPath = path.resolve(__dirname, './default/base');
+          projectPackage = Cli.copyAndGetProjectPackage(projectPath);
 
-        // set base config
-        finalPackage.name = context.name;
-        finalPackage.version = context.version;
-        finalPackage.description = context.description;
+          // set all config template
+          projectPackage = Cli.setConfigTemplate(projectPackage);
+        }
 
-        // set all config template
-        finalPackage = Cli.setConfigTemplate(finalPackage);
-
-        fs.writeFileSync(path.resolve(context.dirName, 'package.json'), JSON.stringify(finalPackage, null, 2));
+        fs.writeFileSync(path.resolve(context.dirName, 'package.json'), JSON.stringify({ ...projectPackage, ...basePackage }, null, 2));
         proce.succeed();
       });
 
     program.parse(process.argv);
+  }
+
+  static async updateAllTemplate() {
+    // 下载新模板到临时位置
+    const tmpTemplatePath = path.resolve(__dirname, '../tmpTemplatePath');
+    const isExist = fs.existsSync(tmpTemplatePath);
+    if (isExist) {
+      fs.rmdirSync(tmpTemplatePath, { recursive: true });
+    }
+    const template = Cli.getTemplate({});
+    // 下载配置模板
+    await Cli.downloadConfig(template.url, path.resolve(tmpTemplatePath, 'configTemplate'));
+    // 下载koa模板
+    await Cli.downloadConfig(template.koaUrl, path.resolve(tmpTemplatePath, 'koa'));
+    // 移除旧模板
+    fs.rmdirSync(path.resolve(__dirname, 'default/configTemplate'), { recursive: true });
+    fs.rmdirSync(path.resolve(__dirname, 'default/koa'), { recursive: true });
+    // 拷贝新模板到默认模板位置
+    copySync(tmpTemplatePath, path.resolve(__dirname, 'default'));
+  }
+
+  static copyAndGetProjectPackage(projectPath) {
+    copySync(projectPath, path.resolve(context.dirName));
+    const defaultPackageStr = fs.readFileSync(path.resolve(projectPath, 'package.json'));
+    return JSON.parse(defaultPackageStr);
   }
 
   static downloadConfig(url, target) {
@@ -93,8 +136,12 @@ class Cli {
   }
 
   static async startPrompt() {
-    const answer = await inquirer.prompt(prompt.getPrompt(context));
-    return answer;
+    const firstAnswer = await inquirer.prompt(prompt.getFirstPrompt(context));
+    if (firstAnswer.projectType === 'koa') {
+      return firstAnswer;
+    }
+    const secondAnswer = await inquirer.prompt(prompt.getPrompt());
+    return { ...firstAnswer, ...secondAnswer };
   }
 
   static async startDownloadConfig() {
