@@ -15,7 +15,8 @@ handlerbarjs 预编译模板
 {
   "name": "{{name}}", // 创建的项目名字
   "dirName": "{{dirName}}", // 项目的根目录名字
-  "url": "direct:https://github.com/liangguangming/config_template.git", // 默认模板，可以根据脚手架的update参数，更新本地的模板
+  "koaUrl": "direct:https://github.com/liangguangming/ddd_node_template.git", // koa模板地址
+  "url": "direct:https://github.com/liangguangming/config_template.git", // 配置模板，可以根据脚手架的update参数，更新本地的模板
   "destPath": "{{name}}",
   "config": { // 所有配置模板的自定义放在这里
     "mocha": {
@@ -33,4 +34,6 @@ npm install
 npm link
 # 可以在任意一个目录使用脚手架了
 base_cli init <name> # 在当前目录下创建一个新项目
+# 更新模板并创建项目
+base_cli init <name> --update
 ```
