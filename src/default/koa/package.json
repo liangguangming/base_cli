@@ -15,14 +15,17 @@
   "license": "ISC",
   "dependencies": {
     "ajv": "^6.12.2",
+    "bluebird": "^3.7.2",
     "core-js": "^3.6.5",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "koa": "^2.12.1",
     "koa-body": "^4.2.0",
     "koa-router": "^9.0.1",
+    "koa-session": "^6.0.0",
     "log4js": "^6.3.0",
-    "mongoose": "^5.9.18"
+    "mongoose": "^5.9.18",
+    "redis": "^3.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",

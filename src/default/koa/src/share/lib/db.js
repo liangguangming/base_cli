@@ -4,7 +4,7 @@ import Logger from '../utils/Logger';
 
 const dbLogger = new Logger('db');
 
-const MONGO_URI = 'mongodb://192.168.200.179:27017/koaTest';
+const { MONGO_URI } = process.env;
 
 const options = {
   useNewUrlParser: true,
