@@ -1,8 +1,8 @@
 {
-  "name": "koatest",
+  "name": "koa_template",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/bin/launch.js",
+  "main": "dist/bin/www.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha  --config test/.mocharc.json",
     "lint-fix": "eslint --ext .js ./src --fix",

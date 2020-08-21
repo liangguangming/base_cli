@@ -15,7 +15,7 @@ handlerbarjs 预编译模板
 {
   "name": "{{name}}", // 创建的项目名字
   "dirName": "{{dirName}}", // 项目的根目录名字
-  "koaUrl": "direct:https://github.com/liangguangming/ddd_node_template.git", // koa模板地址
+  "koaUrl": "direct:https://github.com/liangguangming/koa_template.git", // koa模板地址
   "url": "direct:https://github.com/liangguangming/config_template.git", // 配置模板，可以根据脚手架的update参数，更新本地的模板
   "destPath": "{{name}}",
   "config": { // 所有配置模板的自定义放在这里
