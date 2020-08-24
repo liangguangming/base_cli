@@ -86,7 +86,7 @@ class Cli {
         let projectPackage = {};
 
         if (answer.projectType === 'koa') {
-          const projectPath = path.resolve(__dirname, './default/koa');
+          const projectPath = path.resolve(__dirname, `./${baseName}/koa`);
           projectPackage = Cli.copyAndGetProjectPackage(projectPath);
         } else {
           const projectPath = path.resolve(__dirname, `./${baseName}/base`);

@@ -38,4 +38,6 @@ npm link
 base_cli init <name> # 在当前目录下创建一个新项目
 # 更新模板并创建项目
 base_cli init <name> --update
+# 创建一个 typescript 项目
+base_cli init <name> --typescript
 ```
