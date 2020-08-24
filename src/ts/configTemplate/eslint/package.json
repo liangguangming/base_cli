@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "lint-fix": "eslint --ext .ts ./src --fix",
+    "lint": "eslint --ext .ts ./src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "@typescript-eslint/eslint-plugin": "^3.9.1",
+    "eslint-config-airbnb-typescript": "^9.0.0",
+    "eslint-plugin-import": "^2.22.0",
+    "husky": "^4.2.5"
+  }
+}

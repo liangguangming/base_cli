@@ -10,6 +10,6 @@
   "parserOptions": {
       "ecmaVersion": 2018
   },
-  "ignorePatterns": "src/default/**/*",
+  "ignorePatterns": ["src/default/**/*", "src/ts/**/*"],
   "rules": {}
 }

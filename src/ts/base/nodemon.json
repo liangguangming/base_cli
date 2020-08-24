@@ -1,0 +1,10 @@
+{
+  "verbose": true,
+  "ignore": ["*.test.ts", "node_moduless"],
+  "watch": ["src"],
+  "exec": "npm run dev",
+  "ext": "ts",
+  "env": {
+    "url": "localhost"
+  }
+}

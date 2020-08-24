@@ -26,6 +26,7 @@ class Cli {
       // eslint-disable-next-line global-require
       .version(require('../package.json').version, '-v, --version')
       .option('-u, --update', 'update all templates')
+      .option('-ts, --typescript', 'init a typescript project')
       .command('init <name>')
       .action(async (name) => {
         context.dirName = name;
@@ -43,6 +44,7 @@ class Cli {
         }
         // 更新模板
         const isUpdateTemplate = program.opts().update;
+
         if (isUpdateTemplate) {
           const spinner = ora('update template');
           spinner.start();
@@ -52,7 +54,10 @@ class Cli {
           });
           spinner.succeed();
         }
-        copySync(path.resolve(__dirname, './default/configTemplate'), TMP_PATH);
+        // 是否是 typescript 项目
+        const isTypescript = program.opts().typescript;
+        const baseName = isTypescript ? 'ts' : 'default';
+        copySync(path.resolve(__dirname, `./${baseName}/configTemplate`), TMP_PATH);
         // set template
         const answer = await Cli.startPrompt();
         context = Cli.getTemplate({ dirName: context.dirName, ...answer });
@@ -84,7 +89,7 @@ class Cli {
           const projectPath = path.resolve(__dirname, './default/koa');
           projectPackage = Cli.copyAndGetProjectPackage(projectPath);
         } else {
-          const projectPath = path.resolve(__dirname, './default/base');
+          const projectPath = path.resolve(__dirname, `./${baseName}/base`);
           projectPackage = Cli.copyAndGetProjectPackage(projectPath);
 
           // set all config template
@@ -92,6 +97,13 @@ class Cli {
         }
 
         fs.writeFileSync(path.resolve(context.dirName, 'package.json'), JSON.stringify({ ...projectPackage, ...basePackage }, null, 2));
+        if (!answer.mocha) {
+          const testPath = path.resolve(context.dirName, 'test');
+          const isExistTest = fs.existsSync(testPath);
+          if (isExistTest) {
+            fs.rmdirSync(testPath, { recursive: true });
+          }
+        }
         proce.succeed();
       });
 

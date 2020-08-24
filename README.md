@@ -3,7 +3,9 @@ nodejs 基本脚手架
 ## 支持功能
 - eslint(airbnb)
 - babel
+- mocha
 - koa2
+- typescript
 ## 设计
 commander 命令行基本使用</br>
 inquirer 命令行交互</br>

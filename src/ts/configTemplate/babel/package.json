@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "dev": "node -r ts-node/register ./src/app.ts",
+    "build": "npx babel src --out-dir dist --extensions .ts"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-typescript": "^7.10.4",
+    "ts-node": "^9.0.0"
+  }
+}
